@@ -18,12 +18,23 @@ export default function Eventos() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [eventoEmEdicao, setEventoEmEdicao] = useState<Evento | null>(null);
+  const [termoBusca, setTermoBusca] = useState ("");
 
   const handleSalvar = async (evento: Evento) => {
     await salvarEvento(evento, eventoEmEdicao);
     setEventoEmEdicao(null);
     setIsModalOpen(false);
+   
   };
+
+  const eventosFiltrados = eventos.filter((evento) => {
+  const termo = termoBusca.toLowerCase();
+
+  return (
+    evento.nome.toLowerCase().includes(termo) ||
+    evento.cliente.toLowerCase().includes(termo)
+  );
+});
 
   return (
     <div className="p-6">
@@ -51,12 +62,19 @@ export default function Eventos() {
           Novo Evento
         </button>
       </div>
+      <input
+        type="text"
+        placeholder="Buscar por nome ou cliente..."
+        value={termoBusca}
+        onChange={(e) => setTermoBusca(e.target.value)}
+        className="mb-4 w-full p-2 border rounded"
+      />
 
       {loading ? (
         <p>Carregando eventos...</p>
       ) : (
         <TabelaEventos
-          eventos={eventos}
+          eventos={eventosFiltrados}
           onEditar={(evento) => {
             setEventoEmEdicao(evento);
             setIsModalOpen(true);
