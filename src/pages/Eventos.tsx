@@ -87,17 +87,21 @@ export default function Eventos() {
         </select>
 
       {loading ? (
-        <p>Carregando eventos...</p>
-      ) : (
-        <TabelaEventos
-          eventos={eventosFiltrados}
-          onEditar={(evento) => {
-            setEventoEmEdicao(evento);
-            setIsModalOpen(true);
-          }}
-          onExcluir={excluirEvento}
-        />
-      )}
+      <p>Carregando eventos...</p>
+      ) : eventosFiltrados.length === 0 ? (
+        <div className="p-6 text-center text-gray-500">
+          Nenhum evento encontrado.
+        </div>
+) : (
+  <TabelaEventos
+    eventos={eventosFiltrados}
+    onEditar={(evento) => {
+      setEventoEmEdicao(evento);
+      setIsModalOpen(true);
+    }}
+    onExcluir={excluirEvento}
+  />
+)}
 
       <ModalNovoEvento
         isOpen={isModalOpen}
