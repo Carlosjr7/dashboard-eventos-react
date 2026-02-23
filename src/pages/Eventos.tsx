@@ -19,6 +19,7 @@ export default function Eventos() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [eventoEmEdicao, setEventoEmEdicao] = useState<Evento | null>(null);
   const [termoBusca, setTermoBusca] = useState ("");
+  const [statusFiltro, setStatusFiltro] = useState <"Todos"| "Confirmado"| "Pendente"| "Cancelado">("Todos");
 
   const handleSalvar = async (evento: Evento) => {
     await salvarEvento(evento, eventoEmEdicao);
@@ -27,14 +28,21 @@ export default function Eventos() {
    
   };
 
-  const eventosFiltrados = eventos.filter((evento) => {
+ 
+ const eventosFiltrados = eventos.filter((evento) => {
   const termo = termoBusca.toLowerCase();
 
-  return (
+  const matchBusca =
     evento.nome.toLowerCase().includes(termo) ||
-    evento.cliente.toLowerCase().includes(termo)
-  );
+    evento.cliente.toLowerCase().includes(termo);
+
+  const matchStatus =
+    statusFiltro === "Todos" || evento.status === statusFiltro;
+
+  return matchBusca && matchStatus;
 });
+
+
 
   return (
     <div className="p-6">
@@ -69,6 +77,14 @@ export default function Eventos() {
         onChange={(e) => setTermoBusca(e.target.value)}
         className="mb-4 w-full p-2 border rounded"
       />
+        <select
+        value={statusFiltro}
+        onChange={(e) => setStatusFiltro(e.target.value as any)}
+        className="mb-4 p-2 border rounded">
+          <option value="Confirmado">Confirmado</option>
+          <option value="Pendente">Pendente</option>
+          <option value="Cancelado">Cancelado</option>
+        </select>
 
       {loading ? (
         <p>Carregando eventos...</p>
