@@ -70,21 +70,23 @@ export default function Eventos() {
           Novo Evento
         </button>
       </div>
+      <div className="mb-4 flex gap-4">
       <input
         type="text"
         placeholder="Buscar por nome ou cliente..."
         value={termoBusca}
         onChange={(e) => setTermoBusca(e.target.value)}
-        className="mb-4 w-full p-2 border rounded"
+        className="flex-1 p-2 border  rounded"
       />
         <select
         value={statusFiltro}
         onChange={(e) => setStatusFiltro(e.target.value as any)}
-        className="mb-4 p-2 border rounded">
+        className="p-2 border rounded">
           <option value="Confirmado">Confirmado</option>
           <option value="Pendente">Pendente</option>
           <option value="Cancelado">Cancelado</option>
         </select>
+        </div>
 
         <div className="mb-4 text-sm text-gray-600">
           Mostrando {eventosFiltrados.length} de {eventos.length} eventos
