@@ -86,12 +86,18 @@ export default function Eventos() {
           <option value="Cancelado">Cancelado</option>
         </select>
 
+        <div className="mb-4 text-sm text-gray-600">
+          Mostrando {eventosFiltrados.length} de {eventos.length} eventos
+        </div>
+
       {loading ? (
       <p>Carregando eventos...</p>
       ) : eventosFiltrados.length === 0 ? (
         <div className="p-6 text-center text-gray-500">
           Nenhum evento encontrado.
         </div>
+
+        
 ) : (
   <TabelaEventos
     eventos={eventosFiltrados}
