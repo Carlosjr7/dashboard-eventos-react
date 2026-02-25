@@ -20,6 +20,7 @@ export default function Eventos() {
   const [eventoEmEdicao, setEventoEmEdicao] = useState<Evento | null>(null);
   const [termoBusca, setTermoBusca] = useState ("");
   const [statusFiltro, setStatusFiltro] = useState <"Todos"| "Confirmado"| "Pendente"| "Cancelado">("Todos");
+  const [ordenacao, setOrdenacao] = useState<"recentes" | "antigos"> ("recentes");
 
   const handleSalvar = async (evento: Evento) => {
     await salvarEvento(evento, eventoEmEdicao);
@@ -45,6 +46,16 @@ export default function Eventos() {
   return matchBusca && matchStatus;
 });
 
+const eventosOrdenados = [...eventosFiltrados].sort((a, b) => {
+  const dataA = new Date(a.data).getTime();
+  const dataB = new Date(b.data).getTime();
+
+  if (ordenacao === "recentes") {
+    return dataB - dataA; 
+  } else {
+    return dataA - dataB; 
+  }
+});
 
 
 
@@ -93,6 +104,13 @@ export default function Eventos() {
     <option value="Pendente">Pendente</option>
     <option value="Cancelado">Cancelado</option>
   </select>
+  <select
+  value={ordenacao}
+  onChange={(e)=> setOrdenacao(e.target.value as "recentes" | "antigos")}
+  className="p-2 border rounded">
+    <option value="recentes">Mais recentes</option>
+    <option value="antigos"> Mais antigos</option>
+  </select>
 
   <button
     onClick={limparFiltros}
@@ -116,7 +134,7 @@ export default function Eventos() {
         
 ) : (
   <TabelaEventos
-    eventos={eventosFiltrados}
+    eventos={eventosOrdenados}
     onEditar={(evento) => {
       setEventoEmEdicao(evento);
       setIsModalOpen(true);
