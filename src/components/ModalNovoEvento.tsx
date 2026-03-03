@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Evento } from "../data/eventos";
+import { clientesMock } from "../data/clientes";
 
 interface ModalNovoEventoProps {
   isOpen: boolean;
@@ -21,7 +22,7 @@ export default function ModalNovoEvento({
 }: ModalNovoEventoProps) {
   
   const [nome, setNome] = useState("");
-  const [cliente, setCliente] = useState("");
+  const [clienteId, setClienteId] = useState<number>(0);
   const [data, setData] = useState("");
   const [status, setStatus] = useState<
     "Pendente" | "Confirmado" | "Cancelado"
@@ -30,20 +31,22 @@ export default function ModalNovoEvento({
  
   const [erros, setErros] = useState<{
     nome?: string;
-    cliente?: string;
+    clienteId?: string;
     data?: string;
   }>({});
 
-  
+  const clientes = clientesMock;
+
+   
   useEffect(() => {
     if (eventoInicial) {
       setNome(eventoInicial.nome);
-      setCliente(eventoInicial.cliente);
+      setClienteId(eventoInicial.clienteId);
       setData(eventoInicial.data);
       setStatus(eventoInicial.status);
     } else {
       setNome("");
-      setCliente("");
+      setClienteId(0);
       setData("");
       setStatus("Pendente");
     }
@@ -55,7 +58,7 @@ export default function ModalNovoEvento({
   const validarFormulario = () => {
     const novosErros: {
       nome?: string;
-      cliente?: string;
+      clienteId?: string;
       data?: string;
     } = {};
 
@@ -63,8 +66,8 @@ export default function ModalNovoEvento({
       novosErros.nome = " Nome obrigatório.";
     }
 
-    if (!cliente.trim()) {
-      novosErros.cliente = "Cliente  obrigatório.";
+    if (!clienteId) {
+      novosErros.clienteId = "Cliente  obrigatório.";
     }
 
     if (!data) {
@@ -83,7 +86,7 @@ export default function ModalNovoEvento({
   await onSave({
     id: eventoInicial ? eventoInicial.id : Date.now(),
     nome,
-    cliente,
+    clienteId,
     data,
     status,
   });
@@ -109,7 +112,7 @@ export default function ModalNovoEvento({
             type="text"
             placeholder="Nome do evento"
             value={nome}
-            onChange={(e) => {
+             onChange={(e) => {
               setNome(e.target.value);
               setErros((prev) => ({ ...prev, nome: undefined }));
             }}
@@ -120,19 +123,16 @@ export default function ModalNovoEvento({
           )}
 
           
-          <input
-            type="text"
-            placeholder="Cliente"
-            value={cliente}
-            onChange={(e) => {
-              setCliente(e.target.value);
-              setErros((prev) => ({ ...prev, cliente: undefined }));
-            }}
-            className="border p-2 rounded"
-          />
-          {erros.cliente && (
-            <span className="text-sm text-red-600">{erros.cliente}</span>
-          )}
+          <select
+            value={clienteId}
+            onChange={(e) => setClienteId(Number(e.target.value))}
+>
+            {clientes.map((cliente) => (
+            <option key={cliente.id} value={cliente.id}>
+            {cliente.nome}
+            </option>
+          ))}
+          </select>
 
           
           <input
