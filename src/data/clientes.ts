@@ -23,5 +23,5 @@ export const clientesMock: Cliente[] = [
     nome: "Marca Z",
     email: "contato@marcaz.com",
     telefone: "11777777777",
-  },
+    },
 ];

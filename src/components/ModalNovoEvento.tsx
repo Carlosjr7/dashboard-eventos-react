@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Evento } from "../data/eventos";
-import { clientesMock } from "../data/clientes";
+import type {Cliente} from "../data/clientes";
+
 
 interface ModalNovoEventoProps {
   isOpen: boolean;
@@ -9,6 +10,7 @@ interface ModalNovoEventoProps {
   eventoInicial?: Evento | null;
   erro?: string | null;
   isSaving: boolean;
+  clientes: Cliente[];
 }
 
 export default function ModalNovoEvento({
@@ -19,8 +21,10 @@ export default function ModalNovoEvento({
   eventoInicial,
   erro,
   isSaving,
+  clientes,
 }: ModalNovoEventoProps) {
-  
+
+
   const [nome, setNome] = useState("");
   const [clienteId, setClienteId] = useState<number>(0);
   const [data, setData] = useState("");
@@ -35,9 +39,8 @@ export default function ModalNovoEvento({
     data?: string;
   }>({});
 
-  const clientes = clientesMock;
-
-   
+  
+    
   useEffect(() => {
     if (eventoInicial) {
       setNome(eventoInicial.nome);
@@ -108,6 +111,22 @@ export default function ModalNovoEvento({
 
         <div className="flex flex-col gap-3">
          
+          
+
+          
+          <select
+            value={clienteId}
+            onChange={(e) => setClienteId(Number(e.target.value))}
+            className=" border p-2 rounded"
+          >
+            <option value={0}>Selecione um cliente</option>
+            {clientes.map((cliente) => (
+            <option key={cliente.id} value={cliente.id}>
+            {cliente.nome}
+            </option>
+          ))}
+          </select>
+          
           <input
             type="text"
             placeholder="Nome do evento"
@@ -121,19 +140,6 @@ export default function ModalNovoEvento({
           {erros.nome && (
             <span className="text-sm text-red-600">{erros.nome}</span>
           )}
-
-          
-          <select
-            value={clienteId}
-            onChange={(e) => setClienteId(Number(e.target.value))}
->
-            {clientes.map((cliente) => (
-            <option key={cliente.id} value={cliente.id}>
-            {cliente.nome}
-            </option>
-          ))}
-          </select>
-
           
           <input
             type="date"
