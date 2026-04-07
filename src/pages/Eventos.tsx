@@ -145,35 +145,64 @@ export default function Eventos() {
                 ({Math.round(percentualConfirmados)}%)
                 </span>
                 </div>
+          
+        
+        <div className="w-full h-2 bg-green-100 rounded-full">
+        <div
+        className="h-2 bg-green-500 rounded-full"
+        style={{ width: `${percentualConfirmados}%` }}/>
+        </div>
+        </div>
+        </div>
+               
+        <div className="bg-yellow-50 p-5 rounded-2xl shadow-sm flex items-center gap-4 hover:shadow-md transition">
+          <div className="w-12 h-12 flex items-center justify-center rounded-full bg-yellow-100">
+            ⏳
           </div>
+          <div>
+            <p className="text-sm text-green-700">Pendentes</p>
+            <div className="flex items-center gap-2">
+              <p className="text-2x1 font-bold text-green-700">{pendentes}</p>
+              <span className="text-sm text-green-600">
+                ({Math.round(percentualPendentes)}%)
+                </span>
+                </div>
+          
+        
+        <div className="w-full h-2 bg-green-100 rounded-full">
+        <div
+        className="h-2 bg-green-500 rounded-full"
+        style={{ width: `${percentualPendentes}%` }}/>
+        </div>
+        </div>
         </div>
 
+
+        
         
         <div className="bg-yellow-50 p-5 rounded-2xl shadow-sm flex items-center gap-4 hover:shadow-md transition">
           <div className="w-12 h-12 flex items-center justify-center rounded-full bg-yellow-100">
             ⏳
           </div>
-          <div className="flex items-center gap-2">
-            <p className="text-2x1 font-bold text-yellow-700">{pendentes}</p>
-            <span className="text-sm text-yellow-600">
-              ({Math.round(percentualPendentes)}%)
-              </span>
-              </div>
+          <div>
+            <p className="text-sm text-green-700">Cancelados</p>
+            <div className="flex items-center gap-2">
+              <p className="text-2x1 font-bold text-green-700">{cancelados}</p>
+              <span className="text-sm text-green-600">
+                ({Math.round(percentualCancelado)}%)
+                </span>
+                </div>
+          
+        
+        <div className="w-full h-2 bg-green-100 rounded-full">
+        <div
+        className="h-2 bg-green-500 rounded-full"
+        style={{ width: `${percentualCancelado}%` }}/>
+        </div>
+        </div>
+        </div>
         </div>
 
-        
-        <div className="bg-red-50 p-5 rounded-2xl shadow-sm flex items-center gap-4 hover:shadow-md transition">
-          <div className="w-12 h-12 flex items-center justify-center rounded-full bg-red-100">
-            ❌
-          </div>
-          <div className="flex items-center gap-2">
-            <p className="text-2x1 font-bold text-red-700">{cancelados}</p>
-            <span className="text-sm text-red-600">
-              ({Math.round(percentualCancelado)}%)
-              </span>
-              </div>
-        </div>
-      </div>
 
       
       <div className="mb-4 flex gap-4">
